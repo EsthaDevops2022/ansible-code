@@ -4,6 +4,7 @@ pipeline{
     stages{
         stage('zip the file'){
             steps{
+                sh 'rm -rf ansible-${BUILD_ID}.zip || echo ""' 
                 sh 'zip -r ansible-${BUILD_ID}.zip * --exclude Jenkinsfile'
             }
         }
@@ -12,6 +13,17 @@ pipeline{
                 sh 'curl -uadmin:AP8JrETP4pkpQEdKpLHxJwhVieo -T \
                 ansible-${BUILD_ID}.zip \
                 "http://ec2-44-212-5-14.compute-1.amazonaws.com:8081/artifactory/ansible/ansible-${BUILD_ID}.zip"'
+            }
+        }
+        stage('publish to  ansible server'){
+            steps{
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'AnsibleServer', \
+                transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: \
+                'ls', execTimeout: 120000, flatten: false, makeEmptyDirs: false, \
+                noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: \
+                '/home/ec2-user', remoteDirectorySDF: false, removePrefix: '', \
+                sourceFiles: 'ansible-${BUILD_ID}.zip')], usePromotionTimestamp: false, \
+                useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }
