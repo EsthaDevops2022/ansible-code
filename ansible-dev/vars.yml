@@ -1,0 +1,9 @@
+---
+- hosts: ws
+  become: true
+  vars:
+    packages: [ "vim", "git", "curl" ]
+  tasks:
+  - name: Install Package
+    yum: name={{ item }} state=latest
+    with_items: packages

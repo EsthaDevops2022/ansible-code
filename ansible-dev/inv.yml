@@ -1,0 +1,23 @@
+[ws]
+172.31.21.246
+
+[db]
+172.31.36.85
+
+[wind]
+172.31.21.167
+
+[ws:vars]
+ansible_ssh_private_key_file=~/ansible-key.pem
+ansible_user= ec2-user
+
+[db:vars]
+ansible_ssh_private_key_file=~/ansible-key.pem
+ansible_user= ubuntu
+
+[wind:vars]
+ansible_user=Administrator
+ansible_password=?zCva3e9Sf6gB09sTvl&(E@8e&0L?POB
+ansible_connection=ssh
+ansible_shell_type=cmd
+
