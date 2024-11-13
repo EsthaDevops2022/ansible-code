@@ -7,5 +7,12 @@ pipeline{
                 sh 'zip -r ansible-${BUILD_ID}.zip * --exclude Jenkinsfile'
             }
         }
+        stage('upload artifacts to jfrog'){
+            steps{
+                sh 'curl -uadmin:AP8JrETP4pkpQEdKpLHxJwhVieo -T \
+                ansible-${BUILD_ID}.zip \
+                "http://ec2-44-212-5-14.compute-1.amazonaws.com:8081/artifactory/ansible/ansible-${BUILD_ID}.zip"'
+            }
+        }
     }
 }
