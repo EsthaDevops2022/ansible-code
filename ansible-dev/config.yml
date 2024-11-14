@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  vars: 
+    packages: [ "lsof", "wget", "passwd", "docker", "unzip", "java-17*" ]
+  tasks:
+     - name: Install package on RedHat family
+       yum: name={{ item }} state=latest
+       with_items: packages
+     - name: Start docker daemon
+       service:
+          name: docker
+          state: started
+          enabled: yes
+       when: ansible_os_family=="RedHat"  
+
+     - name:   Install package on Ubuntu family
+       apt: name={{ item }} state==latest
+       with_items: packages
+       when: ansible_os_family=="RedHat"
