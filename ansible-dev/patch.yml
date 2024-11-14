@@ -1,6 +1,6 @@
 ---
 - name: Security patches
-  hosts: db
+  hosts: all
   become: yes
 
   tasks:
